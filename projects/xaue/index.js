@@ -1,6 +1,6 @@
-const ADDRESSES = require('../helper/coreAssets.json')
 const XAUE_PROXY = "0xd5D6840ed95F58FAf537865DcA15D5f99195F87a";
 const ORACLE_PROXY = "0x0618BD112C396060d2b37B537b3d92e757644169";
+const XAUt = "0x68749665FF8D2d112Fa859AA293F07A622782F38";
 
 async function tvl(api) {
     const totalSupply = (await api.call({
@@ -11,12 +11,12 @@ async function tvl(api) {
         target: ORACLE_PROXY,
         abi: "uint256:getLatestPrice",
     }));
-    let balance = totalSupply * oraclePrice / 1e36;
-    api.add(ADDRESSES.null, balance);
+    let balance = totalSupply * oraclePrice / 1e36 * 1e6;
+    api.add(XAUt, balance);
 }
 
 module.exports = {
-    methodology: 'Counts the number of tokens in XAUE times the chainlink USD price',
+    methodology: 'Counts the number of tokens in XAUE times the custom XAUE oracle price on XAUT',
     ethereum: {
         tvl,
     },
