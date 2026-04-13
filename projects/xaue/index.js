@@ -11,12 +11,12 @@ async function tvl(api) {
         target: ORACLE_PROXY,
         abi: "uint256:getLatestPrice",
     }));
-    let balance = totalSupply * oraclePrice / 1e36 * 1e6;
+    let balance = totalSupply * oraclePrice / 1e30;
     api.add(XAUt, balance);
 }
 
 module.exports = {
-    methodology: 'Counts the number of tokens in XAUE times the custom XAUE oracle price on XAUT',
+    methodology: 'TVL is derived from XAUE outstanding supply and the latest on-chain NAV oracle price. This uses implied TVL / supply-based TVL rather than vault-balance-only TVL, because underlying XAUt may be held in custody addresses outside the on-chain vault.',
     ethereum: {
         tvl,
     },
